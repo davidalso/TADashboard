@@ -37,3 +37,7 @@ release
 ############################################
 *.css
 
+# Meteor files #
+################
+.meteor/local
+.meteor/meteorite
