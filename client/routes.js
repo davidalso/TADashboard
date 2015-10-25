@@ -3,6 +3,15 @@ Router.route('/', {
   template: 'DataDashboard',
 });
 
+Router.route('/ta-dash/:sessionId', {
+  name: 'TADashboard',
+  template: 'TADash',
+  onBeforeAction: function() {
+    Session.set("sessionId", this.params.sessionId);
+    this.next();
+  },
+});
+
 Router.configure({
 	layoutTemplate: 'AdminDashboard',
   action: function(){
