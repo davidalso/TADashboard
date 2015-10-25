@@ -1,14 +1,22 @@
-<head>
-  <title>TADashboard</title>
-</head>
+<template name="DataDashboard">
+  <div class="header row">
+    <h3>Welcome to TA Dashboard</h3>
+  </div>
+  {{> CreateSession }}
+</template>
 
-<body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-</body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="CreateSession">
+  <div id="create-session-form" class="row">
+    <h4 class="col-sm-12">Create new data session</h4>
+    <div id="metadata-form" class="col-sm-12">
+    <div class="input-group inline">
+      <h5 class="inline">Session Description:</h5>
+      <input type="text" id="session-desc" class="metadata-input-box" placeholder="Class Section(ie: A, B, or C)">
+    </div>
+    <div class="input-group inline">
+      <h5 class="inline">Experiment Condition:</h5>
+      <input type="text" id="exp-cond" class="metadata-input-box" placeholder="Experimental Condition(ie: 1 or 2)">
+    </div>
+    </div>
+  </div>
 </template>
