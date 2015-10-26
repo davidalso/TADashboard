@@ -13,6 +13,7 @@ DataSession = function(desc, expCond) {
   this.desc = desc;
   this.cond = expCond;
   this.state = eventStates['silence'];
+  this.url = "";
 };
 
 Event = function(type, session) {

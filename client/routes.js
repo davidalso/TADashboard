@@ -12,6 +12,15 @@ Router.route('/ta-dash/:sessionId', {
   },
 });
 
+Router.route('/observer-dash/:sessionId', {
+  name: 'ObserverDashboard',
+  template: 'ObsDash',
+  onBeforeAction: function() {
+    Session.set("sessionId", this.params.sessionId);
+    this.next();
+  },
+});
+
 Router.configure({
 	layoutTemplate: 'AdminDashboard',
   action: function(){
