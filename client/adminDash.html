@@ -40,15 +40,15 @@
     <h5 class="data-field inline">{{desc}}</h5>
     <h5 class="data-field inline">{{cond}}</h5>
     <a target="_blank" href="{{url}}"><h5 class="url-field inline">{{url}}</h5></a>
-    <a target="_blank" href="">
-    <button class="observer-dash btn btn-primary btn-lg">
-      Observer
-    </button>
+    <a target="_blank" href="{{urlFor route="ObserverDashboard" data=getData}}">
+      <button class="observer-dash btn btn-primary btn-lg">
+        Observer
+      </button>
     </a>
     <a target="_blank" href="">
-    <button class="download-data btn btn-primary btn-lg">
-      <i class="fa fa-cloud-download"></i> 
-    </button>
+      <button class="download-data btn btn-primary btn-lg">
+        <i class="fa fa-cloud-download"></i> 
+      </button>
     </a>
   </div>
 </template>

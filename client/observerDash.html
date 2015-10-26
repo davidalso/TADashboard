@@ -1,0 +1,34 @@
+<template name="ObsDash">
+  <div id="obs-dash-info">
+    <div class="row">
+      <div class="ta-view col-sm-8 col-sm-offset-2">
+        <h4>TA Dashboard View</h4>
+        <div class="view"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="feedback-view col-sm-8 col-sm-offset-2">
+        <h4>Your Input</h4>
+        <div class="view">
+          <center>
+            <h1 id="feedback-label">Teacher</h1>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="instructions">
+    <h3>Instructions:</h3>
+      <ul>
+        <li class="instruction">
+          <strong>Teacher: </strong> Press "k"
+        </li>
+        <li class="instruction">
+          <strong>Student: </strong> Press "s"
+        </li>
+      </ul>
+  </div>
+  <div class="hidden key-listener">
+    <input type="hidden">
+  </div>
+</template>
