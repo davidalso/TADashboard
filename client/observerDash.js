@@ -14,6 +14,7 @@ Template.ObsDash.helpers({
     return c.desc;
   },
 });
+
 var keyDownListener = function(evt) {
   var newKey = setKeyState(parseInt(evt.keyCode));
   var state = Session.get("keyState");
@@ -78,19 +79,20 @@ var updateTADash = function() {
       counter++;
       var width = counter.toString() + '%';
       $(".ta-view .animation-view").css("width", width);
-      //console.log("animating", interval, counter);
+      console.log("animating", interval, counter);
       if (counter >= 99) {
-        // var interval = Session.get("timeout");
+        console.log("clearing animation");
+        var interval = Session.get("timeout");
         Meteor.clearInterval(interval);
         $(".ta-view .view").css("background", colors[stateColors[1]]);
         $(".ta-view .animation-view").remove();
       }
     };
-    // Meteor.setTimeout(function() {
-      // var interval = Meteor.setInterval(animateView, 15);
-      // Session.set("timeout", interval);
-    // }, 1500);
-    var interval = Meteor.setInterval(animateView, 30);
+    Meteor.setTimeout(function() {
+      var interval = Meteor.setInterval(animateView, 30);
+      Session.set("timeout", interval);
+    }, 1500);
+    //var interval = Meteor.setInterval(animateView, 30);
     
   }
 };
