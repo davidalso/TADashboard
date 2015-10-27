@@ -8,16 +8,16 @@ isInList = function(member, list, field, compare) {
    *        on which to compare
    *    compare - (optional) comparison function to use
    *****************************************************************/
-  console.log("Searching for " + 
-      JSON.stringify(member) + " in list with contents: " + 
-      JSON.stringify(list));
+  //console.log("Searching for " + 
+      // JSON.stringify(member) + " in list with contents: " + 
+      // JSON.stringify(list));
   var result = false;
   list.forEach(function(obj) {
-    console.log("Checking for match with: " + JSON.stringify(obj));
+    //console.log("Checking for match with: " + JSON.stringify(obj));
     if (field) {
       if (typeof(obj[field]) === 'string' && 
           typeof(member[field]) === 'string') {
-        console.log("comparing 2 strings");
+        //console.log("comparing 2 strings");
         if (obj[field].localeCompare(member[field]) === 0) {
           result = true; 
         }
