@@ -6,6 +6,7 @@ logEvent = function(type) {
 };
 
 logKeyEvent = function(key, isRelease) {
+  // 83 is K = teacher
   if (key == 83) {
     if (isRelease) {
       logEvent(eventTypes[2]);
@@ -13,6 +14,7 @@ logKeyEvent = function(key, isRelease) {
       logEvent(eventTypes[1]);
     }
   } else if (key == 75) {
+  // 75 is s = student
     if (isRelease) {
       logEvent(eventTypes[4]);
     } else {

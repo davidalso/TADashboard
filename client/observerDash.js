@@ -7,6 +7,13 @@ Template.ObsDash.onRendered(function() {
   Tracker.autorun(updateTADash);
 });
 
+Template.ObsDash.helpers({
+  getDesc: function() {
+    var sId = Session.get("sessionId");
+    var c = Classes.findOne({_id: sId});
+    return c.desc;
+  },
+});
 var keyDownListener = function(evt) {
   var newKey = setKeyState(parseInt(evt.keyCode));
   var state = Session.get("keyState");
@@ -73,11 +80,16 @@ var updateTADash = function() {
       $(".ta-view .animation-view").css("width", width);
       //console.log("animating", interval, counter);
       if (counter >= 99) {
+        // var interval = Session.get("timeout");
         Meteor.clearInterval(interval);
         $(".ta-view .view").css("background", colors[stateColors[1]]);
         $(".ta-view .animation-view").remove();
       }
     };
+    // Meteor.setTimeout(function() {
+      // var interval = Meteor.setInterval(animateView, 15);
+      // Session.set("timeout", interval);
+    // }, 1500);
     var interval = Meteor.setInterval(animateView, 30);
     
   }
