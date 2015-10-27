@@ -7,6 +7,7 @@ setKeyState = function(key) {
       state = {}
     } else {
       state = {key: true};
+      logKeyEvent(key, false);
       setState();
     }
     Session.set("keyState", state);
@@ -19,6 +20,7 @@ setKeyState = function(key) {
       state[key] = true;
       //console.log("Setting new key state", state);
       Session.set("keyState", state);
+      logKeyEvent(key, false);
       setState();
       return true;
     }
@@ -32,6 +34,7 @@ clearKeyState = function(key) {
   var keys = Object.keys(state);
   //console.log("clearing key from state", state);
   Session.set("keyState", state);
+  logKeyEvent(key, true);
   setState();
   return keys.length > 0 ? keys : false;
 };

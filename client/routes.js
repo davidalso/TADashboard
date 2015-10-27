@@ -28,13 +28,13 @@ Router.route("/api/sessionData/:sessionId", {
 .get(function() {
   //Get all ideas for a requested prompt
   var request = this.request;
-  logger.trace(request.url);
+  console.log(request.url);
   var parsedUrl = request.url.split('/');
   var sessionId = parsedUrl[parsedUrl.length - 1];
-  logger.info("Converting to CSV ideas for prompt with ID: " + sessionId);
+  console.log("Converting to CSV ideas for prompt with ID: " + sessionId);
   var data = Events.find({sessionId: sessionId}).fetch();
   var csv = JSONtoCSV(data, ';');
-  logger.trace("Outputting csv data: ", csv);
+  console.log("Outputting csv data: ", csv);
   var filename = 'session-' + sessionId + '.csv';
 
   var headers = {

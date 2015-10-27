@@ -8,6 +8,13 @@ eventStates = {'student': 'student',
           'silence': 'silence'
 };
 
+eventTypes = {
+  1: "student begin talking",
+  2: "student end talking",
+  3: "teacher begin talking",
+  4: "teacher end talking",
+};
+
 // First color = background color
 // Second color = transition color (color of growing rectangle
 visualState = {
