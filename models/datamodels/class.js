@@ -2,9 +2,16 @@ Classes = new Meteor.Collection("classes");
 Events = new Meteor.Collection("events");
 
 
-eventStates = {'student': 'student',
+eventStates = {
+          'student': 'student',
           'teacher': 'teacher',
           'student-teacher': 'student-teacher',
+          'cadence-student': 'cadence-student',
+          'cadence-teacher': 'cadence-teacher',
+          'cadence-both': 'cadence-both', // likely unreachable
+          'wait-student': 'wait-student',
+          'wait-teacher': 'wait-teacher',
+          'wait-both': 'wait-both', // likely unreachable
           'silence': 'silence'
 };
 
@@ -19,11 +26,10 @@ eventTypes = {
 // Second color = transition color (color of growing rectangle
 visualState = {
   1: ['orange'],
-  2: ['orange', 'green'],
-  3: ['green'],
-  4: ['orange', 'blue'],
+  2: ['green'],
+  3: ['blue'],
+  4: ['orange', 'green'],
   5: ['green', 'blue'],
-  6: ['blue']
 }
 
 colors = {
@@ -37,7 +43,8 @@ DataSession = function(desc, expCond) {
   this.desc = desc;
   this.cond = expCond;
   this.state = eventStates['silence'];
-  this.lastState = eventStates['silence'];
+  this.waitTimeout = null;
+  this.cadenceTimeout = null;
   this.url = "";
 };
 

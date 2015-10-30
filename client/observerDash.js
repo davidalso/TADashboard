@@ -3,6 +3,7 @@ Template.ObsDash.onRendered(function() {
   document.onkeyup = keyUpListener;
   // Initialize state variables
   Session.set("keyState", {});
+  Session.set("animate-timeout", null);
   Tracker.autorun(updateKeyState);
   Tracker.autorun(updateTADash);
 });
@@ -17,14 +18,10 @@ Template.ObsDash.helpers({
 
 var keyDownListener = function(evt) {
   var newKey = setKeyState(parseInt(evt.keyCode));
-  var state = Session.get("keyState");
-  // //console.log("pressed key", state);
 };
 
 var keyUpListener = function(evt) {
-  // //console.log("released key", evt.keyCode);
   clearKeyState(parseInt(evt.keyCode));
-  //setInputState(-1);
 }
 
 
@@ -56,6 +53,10 @@ var updateKeyState = function() {
     // //console.log("two keys pressed", keys);
     if (isInList(75, keys) && isInList(83, keys)) {
       $("#feedback-label").html("Student-teacher");
+    } else if (isInList(75, keys)) {
+      $("#feedback-label").html("Teacher");
+    } else if (isInList(83, keys)) {
+      $("#feedback-label").html("Student");
     } else {
       $("#feedback-label").html("Invalid Input");
     }
@@ -67,32 +68,44 @@ var updateTADash = function() {
   //console.log("******************************************");
   var sessionId = Session.get("sessionId");
   var session = Classes.findOne({_id: sessionId});
-  var stateColors = getStateColor(session['cond'], session['state'], session['lastState']);
-  //console.log("updating TA Dash state", stateColors);
-  if (stateColors.length == 1) {
-    $(".ta-view .view").css("background", colors[stateColors[0]]);
-  } else if (stateColors.length == 2) {
-    Blaze.render(Template.AnimationView, $(".ta-view .view")[0]);
-    $(".ta-view .animation-view").css("background", colors[stateColors[1]]);
-    var counter = 0;
-    var animateView = function() {
-      counter++;
-      var width = counter.toString() + '%';
-      $(".ta-view .animation-view").css("width", width);
-      console.log("animating", interval, counter);
-      if (counter >= 99) {
-        console.log("clearing animation");
-        var interval = Session.get("timeout");
-        Meteor.clearInterval(interval);
-        $(".ta-view .view").css("background", colors[stateColors[1]]);
-        $(".ta-view .animation-view").remove();
+  console.log("Updating dash view", session);
+  if (session != null) {
+    var stateColors = getStateColor(session['cond'], session['state']);
+    //console.log("updating TA Dash state", stateColors);
+    if (stateColors.length == 1) {
+      $(".ta-view .view").css("background", colors[stateColors[0]]);
+      var animateInt = Session.get("animate-timeout");
+      if (animateInt != null) {
+          Meteor.clearInterval(animateInt);
+          Session.set("animate-timeout", null);
+          $(".ta-view .animation-view").remove();
       }
-    };
-    Meteor.setTimeout(function() {
-      var interval = Meteor.setInterval(animateView, 30);
-      Session.set("timeout", interval);
-    }, 1500);
-    //var interval = Meteor.setInterval(animateView, 30);
-    
+    } else if (stateColors.length == 2) {
+      if ($(".ta-view .animation-view").length == 0) {
+        Blaze.render(Template.AnimationView, $(".ta-view .view")[0]);
+      } else {
+        $(".ta-view .animation-view").css("width", "0");
+      }
+      $(".ta-view .animation-view").css("background", colors[stateColors[1]]);
+      var counter = 0;
+      var animateView = function() {
+        counter++;
+        var width = counter.toString() + '%';
+        $(".ta-view .animation-view").css("width", width);
+        console.log("animating", counter);
+        if (counter >= 99) {
+          var interval = Session.get("animate-timeout");
+          console.log("clearing animation", interval);
+          Meteor.clearInterval(interval);
+          Session.set("animate-timeout", null);
+          $(".ta-view .view").css("background", colors[stateColors[1]]);
+          $(".ta-view .animation-view").remove();
+        }
+      };
+      var intTime = WAIT_TIME / 100;
+      var animateInterval = Meteor.setInterval(animateView, intTime);
+      console.log("starting interval: ", animateInterval);
+      Session.set("animate-timeout", animateInterval);
+    }
   }
 };
