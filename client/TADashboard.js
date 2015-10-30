@@ -26,26 +26,44 @@ var updateTADash = function() {
   //console.log("******************************************");
   var sessionId = Session.get("sessionId");
   var session = Classes.findOne({_id: sessionId});
-  var stateColors = getStateColor(session['cond'], session['state'], session['lastState']);
-  //console.log("updating TA Dash state", stateColors);
-  if (stateColors.length == 1) {
-    $(".dashboard").css("background", colors[stateColors[0]]);
-  } else if (stateColors.length == 2) {
-    Blaze.render(Template.AnimationView, $(".dashboard")[0]);
-    $(".dashboard .animation-view").css("background", colors[stateColors[1]]);
-    var counter = 0;
-    var animateView = function() {
-      counter++;
-      var width = counter.toString() + '%';
-      $(".dashboard .animation-view").css("width", width);
-      //console.log("animating", interval, counter);
-      if (counter >= 99) {
-        Meteor.clearInterval(interval);
-        $(".dashboard").css("background", colors[stateColors[1]]);
-        $(".dashboard .animation-view").remove();
+  console.log("Updating dash view", session);
+  if (session != null) {
+    var stateColors = getStateColor(session['cond'], session['state']);
+    //console.log("updating TA Dash state", stateColors);
+    if (stateColors.length == 1) {
+      $(".dashboard").css("background", colors[stateColors[0]]);
+      var animateInt = Session.get("animate-timeout");
+      if (animateInt != null) {
+          Meteor.clearInterval(animateInt);
+          Session.set("animate-timeout", null);
+          $(".dashboard .animation-view").remove();
       }
-    };
-    var interval = Meteor.setInterval(animateView, 30);
-    
+    } else if (stateColors.length == 2) {
+      if ($(".dashboard .animation-view").length == 0) {
+        Blaze.render(Template.AnimationView, $(".dashboard")[0]);
+      } else {
+        $(".dashboard .animation-view").css("width", "0");
+      }
+      $(".dashboard .animation-view").css("background", colors[stateColors[1]]);
+      var counter = 0;
+      var animateView = function() {
+        counter++;
+        var width = counter.toString() + '%';
+        $(".dashboard .animation-view").css("width", width);
+        console.log("animating", counter);
+        if (counter >= 99) {
+          var interval = Session.get("animate-timeout");
+          console.log("clearing animation", interval);
+          Meteor.clearInterval(interval);
+          Session.set("animate-timeout", null);
+          $(".dashboard .view").css("background", colors[stateColors[1]]);
+          $(".dashboard .animation-view").remove();
+        }
+      };
+      var intTime = WAIT_TIME / 100;
+      var animateInterval = Meteor.setInterval(animateView, intTime);
+      console.log("starting interval: ", animateInterval);
+      Session.set("animate-timeout", animateInterval);
+    }
   }
 };
