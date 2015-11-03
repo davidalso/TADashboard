@@ -11,7 +11,7 @@ eventStates = {
           'cadence-both': 'cadence-both', // likely unreachable
           'wait-student': 'wait-student',
           'wait-teacher': 'wait-teacher',
-          'wait-both': 'wait-both', // likely unreachable
+          'wait-both': 'wait-both', // likely unreachabl
           'silence': 'silence'
 };
 
