@@ -39,7 +39,9 @@
     <h5 class="data-field inline">{{getDate}}</h5>
     <h5 class="data-field inline">{{desc}}</h5>
     <h5 class="data-field inline">{{cond}}</h5>
-    <a target="_blank" href="{{urlFor route="TADashboard" data=getData}}}"><h5 class="url-field inline">{{urlFor route="TADashboard" data=getData}}</h5></a>
+    <a target="_blank" href="{{urlFor route="TADashboard" data=getData}}">
+      <h5 class="url-field inline">{{urlFor route="TADashboard" data=getData}}</h5>
+    </a>
     <a target="_blank" href="{{urlFor route="ObserverDashboard" data=getData}}">
       <button class="observer-dash btn btn-primary btn-lg">
         Observer
