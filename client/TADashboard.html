@@ -1,11 +1,11 @@
 <template name="TADash">
   <span class="dashboard inline">
   </span>
-  <div class="tactic-counter">
+  <span class="tactic-counter inline">
       {{#each tactics}}
         {{ >TacticCount }}
       {{/each}}
-  </div>
+  </span>
 </template>
 
 <template name="TacticCount">
