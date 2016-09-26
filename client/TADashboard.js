@@ -51,7 +51,7 @@ var getLastState = function() {
 var checkStateUpdate = function() {
   var last = getLastState();
   var state = getState();
-  console.log("updating state: ", state, last);
+  // console.log("updating state: ", state, last);
   if (state != last) {
     updateTADash(state, Session.get("cond"));
   }
@@ -97,3 +97,17 @@ var updateTADash = function(state, cond) {
     Session.set("animate-timeout", animateInterval);
   }
 };
+
+Template.TADash.helpers({
+  tactics: function(){
+    var data = [];
+    var sessionId = Session.get("sessionId");
+    var cls = Classes.findOne({_id: sessionId});
+    for (var i = 0; i<cls.toi.length;i++){
+      var count = Events.find({'type':cls.toi[i], 'sessionId':sessionId}).count();
+      data.push({'tacticName':cls.toi[i], 'tacticCount':count});
+    }
+    return data;
+  },
+
+});

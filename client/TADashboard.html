@@ -1,5 +1,13 @@
 <template name="TADash">
-  <div class="dashboard row">
-    
+  <span class="dashboard inline">
+  </span>
+  <div class="tactic-counter">
+      {{#each tactics}}
+        {{ >TacticCount }}
+      {{/each}}
   </div>
+</template>
+
+<template name="TacticCount">
+  <div><strong>{{tacticName}}</strong>: {{tacticCount}}</div>
 </template>

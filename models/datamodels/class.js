@@ -62,6 +62,7 @@ DataSession = function(desc, expCond) {
   this.waitTimeout = null;
   this.cadenceTimeout = null;
   this.url = "";
+  this.toi = []; // Tactics of Interest
 };
 
 Event = function(type, session) {
