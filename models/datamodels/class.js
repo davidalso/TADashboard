@@ -62,12 +62,6 @@ DataSession = function(desc, expCond) {
   this.waitTimeout = null;
   this.cadenceTimeout = null;
   this.url = "";
-  // @tommit An object for tallying events
-  this.eventCounters = { /* eventType : count */ };
-  var keys = Object.keys(KeyToEventMap);
-  for (var i = 0; i<keys.length; i++) {
-    this.eventCounters[keys[i]] = 0; // Initialization
-  }
 };
 
 Event = function(type, session) {
