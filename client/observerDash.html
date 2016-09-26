@@ -15,6 +15,12 @@
             <h1 id="feedback-label">Teacher</h1>
           </center>
         </div>
+	<h4>Secondary Text Field</h4>
+        <div class="view">
+          <center>
+            <h1 id="tactic-label">Tactic</h1>
+          </center>
+        </div>
       </div>
     </div>
   </div>
@@ -27,13 +33,42 @@
         <li class="instruction">
           <strong>Student: </strong> Press "s"
         </li>
+	<li class="instruction">
+          <strong>Pause: </strong> Press "1"
+        </li>
+	<li class="instruction">
+          <strong>Unpause: </strong> Press "0" (Zero)
+        </li>
+	<li class="instruction">
+          <strong>Timing: </strong> Press "t"
+        </li>
+	{{#each keyMap}}
+		{{> keyMapListing}}
+	{{/each}}
+
+	Use <strong>Shift</strong> to decrement event counted.
       </ul>
+  </div>
+  <div class="EventCounters">
+    {{#each eventCounters}}
+        {{> eventCount }}	
+    {{/each}}
+    
   </div>
   <div class="hidden key-listener">
     <input type="hidden">
   </div>
 </template>
 
+<template name="keyMapListing">
+	<li class="instruction">
+          <strong>{{eventName}}: </strong> Press "{{keyChar}}"
+        </li>	
+</template>
+<template name="eventCount">
+  <div class="event-count"> {{eventName}} : {{eventCount}}
+  </div>
+</template>
 <template name="AnimationView">
   <div class="animation-view">
   </div>

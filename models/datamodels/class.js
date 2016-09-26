@@ -20,7 +20,23 @@ eventTypes = {
   2: "student end talking",
   3: "teacher begin talking",
   4: "teacher end talking",
+  // @Nikolai timing & pausing
+  5: "timing begin",
+  6: "timing end",
+  7: "pause begin",
+  8: "pause end",
 };
+
+// @tommit Mapping ASCII keys to events of interest
+KeyToEventMap = {
+	89: 'Question asked', // Key Y
+	85: 'Cold call',	// Key U
+	73: 'Name used', 	// Key I
+	79: 'New student talks' // Key O
+}
+
+// @Nikolai observerpause
+observerPause = false;
 
 // First color = background color
 // Second color = transition color (color of growing rectangle
@@ -46,6 +62,12 @@ DataSession = function(desc, expCond) {
   this.waitTimeout = null;
   this.cadenceTimeout = null;
   this.url = "";
+  // @tommit An object for tallying events
+  this.eventCounters = { /* eventType : count */ };
+  var keys = Object.keys(KeyToEventMap);
+  for (var i = 0; i<keys.length; i++) {
+    this.eventCounters[keys[i]] = 0; // Initialization
+  }
 };
 
 Event = function(type, session) {

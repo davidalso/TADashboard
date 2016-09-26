@@ -14,24 +14,62 @@ Template.ObsDash.helpers({
     var c = Classes.findOne({_id: sId});
     return c.desc;
   },
+  
+  // @tommit extract event counts from DB
+  eventCounters : function() {
+    var sId = Session.get("sessionId");
+    var c = Classes.findOne({_id: sId});
+    var data = [];
+    for (var k in KeyToEventMap) {
+	var count = Events.find({'type':KeyToEventMap[k], 'sessionId':sId}).count();
+    	data.push( {'eventName':KeyToEventMap[k],'eventCount':count} );
+    }
+    return data;
+  },
+
+  // @tommit extract keyMap listing
+  keyMap : function() {
+     var data = [];
+     for (var k in KeyToEventMap) {
+	data.push({'eventName':KeyToEventMap[k],'keyChar':String.fromCharCode(k)});
+     }
+     return data;
+  }
 });
 
 var keyDownListener = function(evt) {
   var newKey = setKeyState(parseInt(evt.keyCode));
+  updateTacticLable(evt.keyCode);
 };
 
 var keyUpListener = function(evt) {
   clearKeyState(parseInt(evt.keyCode));
+
+  // @tommit call on eventManager to count or discount some event
+  if (evt.shiftKey) {
+    discountEvent(parseInt(evt.keyCode));
+  } else {
+    countEvent(parseInt(evt.keyCode));
+  } 
 }
 
+var updateTacticLable = function(key) {
+    if (KeyToEventMap[key])
+    	$("#tactic-label").html(KeyToEventMap[key]);
+}
 
 var updateKeyState = function() {
   var state = Session.get("keyState");
   var keys = getKeyState();
   // //console.log("updating key state", keys);
-  if (keys.length == 0) {
+  if (observerPause) {
+      $("#feedback-label").html("Paused. Press 0");
+      $("#tactic-label").hide();
+  } else if (keys.length == 0) {
       //no key pressed
       $("#feedback-label").html("No Input");
+  } else if (isInList(84, keys) ){ 
+      $("#feedback-label").html("Timing");
   } else if (keys.length == 1) { 
     // //console.log("one key pressed", keys[0]);
     switch(keys[0]) {
@@ -48,6 +86,7 @@ var updateKeyState = function() {
       default:
         // //console.log("invalid input pressed");
         $("#feedback-label").html("Invalid Input");
+	$("#tactic-label").show();
     }
   } else if (keys.length >= 2) {
     // //console.log("two keys pressed", keys);

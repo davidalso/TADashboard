@@ -21,5 +21,67 @@ logKeyEvent = function(key, isRelease) {
       logEvent(eventTypes[3]);
     }
 
+  } 
+
+  switch (key) {
+	case 84: // Key T
+		if (!isRelease) // Timing begin
+			logEvent(eventTypes[5]);
+		else	// Timing end
+			logEvent(eventTypes[6]);
+		break;
+	case 49: // Key 1 Pause
+		if (!isRelease) {
+			logEvent(eventTypes[7]);
+			observerPause = true;
+		}
+		break;
+	case 48: // Key 0 Unpause
+		if (!isRelease) {
+			logEvent(eventTypes[8]);
+			observerPause = false;
+		}
+		break;
+	default:
   }
+};
+
+/**
+ * @tommit
+ *
+ * Discount an event stored in the Model
+ * @param type Event type (special)
+ */
+unlogEvent = function (type) {
+  var sId = Session.get("sessionId");
+var e = Events.findOne({'type':type, 'sessionId':sId}); // Double check which event was found
+  Events.remove(e._id);
+};
+
+/**
+ * @tommit
+ *
+ * Count an event in the Model
+ * @param k Keypressed
+ */
+countEvent = function (k) {
+	
+ 	if (KeyToEventMap[k] == undefined)
+		return;
+
+	console.log('count Keypressed:' + k);
+	logEvent(KeyToEventMap[k]);
+};
+
+/**
+ * @tommit
+ * Decrement event count
+ */
+discountEvent = function (k) {
+	
+	if (KeyToEventMap[k] == undefined)
+		return;
+
+	console.log('Discount Keypressed:' + k);
+	unlogEvent(KeyToEventMap[k]);
 };
